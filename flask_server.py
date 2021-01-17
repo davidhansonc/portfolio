@@ -2,9 +2,10 @@
 # @Author: davidhansonc
 # @Date:   2021-01-12 14:41:13
 # @Last Modified by:   davidhansonc
-# @Last Modified time: 2021-01-13 11:02:19
+# @Last Modified time: 2021-01-17 16:13:26
 from flask import Flask, render_template, request, redirect
-import csv
+import smtplib, csv
+from email.message import EmailMessage
 
 app = Flask(__name__)
 
@@ -22,26 +23,39 @@ def submit_form():
         try:
             data = request.form.to_dict()
             write_to_csv(data)
+            print('written to database')
+            send_email(data)
+            print('email sent')
             return redirect('/thank_you.html')
         except:
-            return 'did not save to database'
+            return 'something went wrong while processing.'
     else:
         return 'something went wrong, try again.'
 
-def write_to_file(new_data): 
-    with open('database.txt', 'a') as database:
-        email = new_data['email']
-        subject = new_data['subject']
-        message = new_data['message']
-        file = database.write(f'{email},{subject},{message}\n')
-    return file
+def send_email(new_data):
+    email = EmailMessage()
+    name = new_data['name']
+    sender_address = new_data['email']
+    subject = new_data['subject']
+    message = new_data['message']
+    email['from'] = name
+    email['to'] = 'davidhanson.c@gmail.com'
+    email['subject'] = f'website contact form: {subject}'
+    email.set_content(f'''Name: {name}\n\nEmail: {sender_address}\n\nSubject: {subject}\n\n{message}''')
+    with smtplib.SMTP('smtp.gmail.com', 587) as smtp:
+        smtp.ehlo()
+        smtp.starttls()
+        smtp.login('python.testing.djhd@gmail.com', 'david#hanson')
+        smtp.send_message(email)
+    return 'email sending...'
 
 def write_to_csv(new_data):
     with open('database.csv', 'a', newline='') as database:
+        name = new_data['name']
         email = new_data['email']
         subject = new_data['subject']
         message = new_data['message']
         csv_writer = csv.writer(database, delimiter=',', quotechar='"', \
                 quoting=csv.QUOTE_MINIMAL)
-        csv_writer.writerow([email, subject, message])
+        csv_writer.writerow([name, email, subject, message])
     return csv_writer
