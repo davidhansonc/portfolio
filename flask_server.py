@@ -4,18 +4,22 @@
 # @Last Modified by:   davidhansonc
 # @Last Modified time: 2021-01-17 16:13:26
 from flask import Flask, render_template, request, redirect
-import smtplib, csv
+import smtplib
+import csv
 from email.message import EmailMessage
 
 app = Flask(__name__)
+
 
 @app.route('/')
 def home_page():
     return render_template('index.html')
 
+
 @app.route('/<string:page_name>')
 def show_page(page_name=None):
     return render_template(page_name)
+
 
 @app.route('/submit_form', methods=['POST', 'GET'])
 def submit_form():
@@ -31,6 +35,7 @@ def submit_form():
             return 'something went wrong while processing.'
     else:
         return 'something went wrong, try again.'
+
 
 def send_email(new_data):
     email = EmailMessage()
@@ -49,8 +54,9 @@ def send_email(new_data):
         smtp.send_message(email)
     return 'email sending...'
 
+
 def write_to_csv(new_data):
-    with open('database.csv', 'a', newline='') as database:
+    with open('./database.csv', 'a', newline='') as database:
         name = new_data['name']
         email = new_data['email']
         subject = new_data['subject']
