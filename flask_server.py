@@ -30,11 +30,11 @@ def submit_form():
             print('written to database')
             send_email(data)
             print('email sent')
-            return redirect('/thank_you.html')
+            return render_template('index.html')  # redirect('/index.html')
         except:
             return 'something went wrong while processing.'
     else:
-        return 'something went wrong, try again.'
+        return 'must have been a GET request'
 
 
 def send_email(new_data):
@@ -46,7 +46,7 @@ def send_email(new_data):
     email['from'] = name
     email['to'] = 'davidhanson.c@gmail.com'
     email['subject'] = f'website contact form: {subject}'
-    email.set_content(f'''Name: {name}\n\nEmail: {sender_address}\n\nSubject: {subject}\n\n{message}''')
+    email.set_content(f'''Name: {name}\n\nEmail: {sender_address}\n\nSubject: {subject}\n\nMessage: \n{message}''')
     with smtplib.SMTP('smtp.gmail.com', 587) as smtp:
         smtp.ehlo()
         smtp.starttls()
