@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 # @Author: davidhansonc
 # @Date:   2021-01-12 14:41:13
-# @Last Modified by:   davidhansonc
-# @Last Modified time: 2021-01-17 16:13:26
+# @Last Modified by:   David Hanson
+# @Last Modified time: 2021-02-24 14:37:08
 from flask import Flask, render_template, request, redirect
 import smtplib
 import csv
@@ -65,3 +65,7 @@ def write_to_csv(new_data):
                 quoting=csv.QUOTE_MINIMAL)
         csv_writer.writerow([name, email, subject, message])
     return csv_writer
+
+
+if __name__ == '__main__':
+    app.run(debug=True
