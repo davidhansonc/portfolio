@@ -63,4 +63,5 @@ def write_to_csv(new_data):
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run()
+    # app.run(debug=True)
