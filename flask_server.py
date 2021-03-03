@@ -25,7 +25,7 @@ def submit_form():
             send_email(data)
             return render_template("index.html")  # redirect("/index.html")
         except:
-            return "something went wrong while processing."
+            return "something IS wrong."
     else:
         return "must have been a GET request"
 
@@ -39,7 +39,7 @@ def send_email(new_data):
     email["from"] = name
     email["to"] = "davidhanson.c@gmail.com"
     email["subject"] = f"website contact form: {subject}"
-    email.set_content(f"""Name: {name}\n\nEmail: {sender_address}\n\nSubject: {subject}\n\nMessage: \n{message}""")
+    email.set_content(f"""Name: {name}\n\nEmail: {sender_address}\n\nSubject: {subject}\n\n{message}""")
     with smtplib.SMTP("smtp.gmail.com", 587) as smtp:
         smtp.ehlo()
         smtp.starttls()
