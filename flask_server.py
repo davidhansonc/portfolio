@@ -16,7 +16,7 @@ def show_page(page_name=None):
     return render_template(page_name)
 
 
-@app.route("/submit_form", methods=["POST", "GET"])
+@app.route("/", methods=["POST", "GET"])
 def submit_form():
     if request.method == "POST":
         try:
