@@ -22,9 +22,7 @@ def submit_form():
         try:
             data = request.form.to_dict()
             write_to_csv(data)
-            print("written to database")
             send_email(data)
-            print("email sent")
             return render_template("index.html")  # redirect("/index.html")
         except:
             return "something went wrong while processing."
