@@ -48,18 +48,6 @@ def send_email(new_data):
     return "email sending..."
 
 
-def write_to_csv(new_data):
-    with open("./database.csv", "a", newline="") as database:
-        name = new_data["name"]
-        email = new_data["email"]
-        subject = new_data["subject"]
-        message = new_data["message"]
-        csv_writer = csv.writer(database, delimiter=",", quotechar='"', \
-                quoting=csv.QUOTE_MINIMAL)
-        csv_writer.writerow([name, email, subject, message])
-    return csv_writer
-
-
 if __name__ == "__main__":
     app.run()
     # app.run(debug=True)
