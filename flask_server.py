@@ -21,7 +21,7 @@ def submit_form():
     if request.method == "POST":
         try:
             data = request.form.to_dict()
-            write_to_csv(data)
+            # write_to_csv(data)
             send_email(data)
             return render_template("index.html")  # redirect("/index.html")
         except:
