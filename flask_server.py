@@ -1,7 +1,5 @@
 from flask import Flask, render_template, request, redirect
 import requests
-import smtplib
-from email.mime.text import MIMEText
 import os
 # from email.message import EmailMessage
 
@@ -13,9 +11,9 @@ def home_page():
     return render_template("index.html")
 
 
-@app.route("/<string:page_name>")
-def show_page(page_name=None):
-    return render_template(page_name)
+# @app.route("/<string:page_name>")
+# def show_page(page_name=None):
+#     return render_template(page_name)
 
 
 @app.route("/", methods=["POST", "GET"])
