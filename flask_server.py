@@ -40,8 +40,6 @@ def send_email(new_data):
     subject = new_data["subject"]
     message = new_data["message"]
 
-    # api_key = "1e105e3da00a3b9b84f47763f23ca500-e49cc42c-356400bd"
-    # domain_name = "sandbox0525c81495cc4b48aa110ae783855ba0.mailgun.org"
     api_key = os.environ["MAILGUN_API_KEY"]
     domain_name = os.environ["MAILGUN_DOMAIN"]
 
@@ -56,5 +54,5 @@ def send_email(new_data):
 
 
 if __name__ == "__main__":
-    # app.run()
-    app.run(debug=True)
+    app.run()
+    # app.run(debug=True)
