@@ -16,7 +16,7 @@ def submit_form():
         try:
             data = request.form.to_dict()
             print("about to send email..")
-            # send_email(data)
+            send_email(data)
             print("sending...")
             return render_template("index.html")  # redirect("/index.html")
         except:
