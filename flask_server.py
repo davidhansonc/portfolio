@@ -1,7 +1,6 @@
 from flask import Flask, render_template, request, redirect
 import requests
 import os
-# from email.message import EmailMessage
 
 app = Flask(__name__)
 
@@ -11,19 +10,13 @@ def home_page():
     return render_template("index.html")
 
 
-# @app.route("/<string:page_name>")
-# def show_page(page_name=None):
-#     return render_template(page_name)
-
-
 @app.route("/", methods=["POST", "GET"])
 def submit_form():
     if request.method == "POST":
         try:
             data = request.form.to_dict()
-            # write_to_csv(data)
             print("about to send email..")
-            send_email(data)
+            # send_email(data)
             print("sending...")
             return render_template("index.html")  # redirect("/index.html")
         except:
