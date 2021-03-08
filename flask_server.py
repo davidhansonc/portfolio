@@ -1,7 +1,9 @@
 from flask import Flask, render_template, request, redirect
+import requests
 import smtplib
-import csv
-from email.message import EmailMessage
+from email.mime.text import MIMEText
+import os
+# from email.message import EmailMessage
 
 app = Flask(__name__)
 
@@ -22,7 +24,9 @@ def submit_form():
         try:
             data = request.form.to_dict()
             # write_to_csv(data)
+            print("about to send email..")
             send_email(data)
+            print("sending...")
             return render_template("index.html")  # redirect("/index.html")
         except:
             return "something IS wrong."
@@ -31,23 +35,26 @@ def submit_form():
 
 
 def send_email(new_data):
-    email = EmailMessage()
     name = new_data["name"]
-    sender_address = new_data["email"]
+    inquiree_address = new_data["email"]
     subject = new_data["subject"]
     message = new_data["message"]
-    email["from"] = name
-    email["to"] = "davidhanson.c@gmail.com"
-    email["subject"] = f"website contact form: {subject}"
-    email.set_content(f"""Name: {name}\n\nEmail: {sender_address}\n\nSubject: {subject}\n\n{message}""")
-    with smtplib.SMTP("smtp.gmail.com", 587) as smtp:
-        smtp.ehlo()
-        smtp.starttls()
-        smtp.login("python.testing.djhd@gmail.com", "david#hanson")
-        smtp.send_message(email)
-    return "email sending..."
+
+    # api_key = "1e105e3da00a3b9b84f47763f23ca500-e49cc42c-356400bd"
+    # domain_name = "sandbox0525c81495cc4b48aa110ae783855ba0.mailgun.org"
+    api_key = os.environ["MAILGUN_API_KEY"]
+    domain_name = os.environ["MAILGUN_DOMAIN"]
+
+    return requests.post(
+            f"https://api.mailgun.net/v3/{domain_name}/messages",
+            auth=("api", api_key),
+            data={"from": f"{name} <{inquiree_address}>",
+                "to": "davidhanson.c@gmail.com",
+                "subject": subject,
+                "text": message
+                })
 
 
 if __name__ == "__main__":
-    app.run()
-    # app.run(debug=True)
+    # app.run()
+    app.run(debug=True)
